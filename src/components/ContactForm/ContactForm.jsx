@@ -1,13 +1,14 @@
 import { Form, Button, Input } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleChange = ({ target }) => {
@@ -27,7 +28,7 @@ export const ContactForm = () => {
     if (contacts.find(contact => contact.name === name)) {
       alert('This contact is already in phonebook!');
     } else {
-      dispatch(addContact(name, number));
+      dispatch(addContact({ name, number }));
     }
     setName('');
     setNumber('');
